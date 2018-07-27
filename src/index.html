@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>ETH ERC721 DAPP Demo</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container">
+        <br/>
+        <div id="page-head" style="display: none;">
+            <div style="position: relative">
+                <div style="position: relative;z-index: 1;">
+                    <div id="account-balance" style="font-size:18px;float: right;">
+                        0 ETH
+                    </div>
+                    <button type="button" class="btn btn-default" style="float: right;">
+                        账户余额:
+                    </button>
+                </div>
+                <div style="position: relative;z-index: 2">
+                    <div id="current-account" style="font-size:18px;float: right;">
+                        0x0
+                    </div>
+                    <div class="dropdown" style="float: right;">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">
+                            切换帐号：
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="menuRow" class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                            <!--menu here-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <hr/>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-push-2">
+                <h1 id="pageTitle" class="text-center"></h1>
+                <br/>
+            </div>
+        </div>
+
+        <div id="page-tabs" style="display: none;">
+            <button id="trade-center" type="button" class="btn btn-primary">交易大厅</button>
+            <button id="breed-center" type="button" class="btn btn-primary">繁育中心</button>
+            <button id="fight-center" type="button" class="btn btn-primary">对战中心</button>
+            <button id="feed-center" type="button" class="btn btn-primary">喂养中心</button>
+            <button id="upgrade-center" type="button" class="btn btn-primary">升级中心</button>
+            <button id="my-center" type="button" class="btn btn-primary">我的</button>
+            <br/>
+            <hr/>
+        </div>
+
+        <div id="page-hint">
+            <h3 class="text-center">区块链数据查询中....</h3>
+            <br/>
+            <br/>
+            <h4 class="text-center"><<====交易大厅====>></h4>
+            <h4 class="text-center"><<====繁育中心====>></h4>
+            <h4 class="text-center"><<====对战中心====>></h4>
+            <h4 class="text-center"><<====喂养中心====>></h4>
+            <h4 class="text-center"><<====升级中心====>></h4>
+        </div>
+        <h5 id="play-hint" class="text-center;" style="display: none;">玩法：</h5>
+
+        <br/>
+        <div id="thingsRow" class="row">
+            <!-- PETS LOAD HERE -->
+        </div>
+    </div>
+
+    <!--thingTemplate-->
+    <div id="thing-template" style="display: none;" >
+        <div class="thing-template-body col-sm-6 col-md-4 col-lg-3" thing-item-id="0">
+            <div class="panel panel-default panel-thing">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Scrappy</h3>
+                </div>
+                <div class="panel-body">
+                    <img alt="395x343" data-src="holder.js/395x343" style="width: 100%;height: 220px;background-color: #fff3e1;" class="img-rounded img-center"
+                         src="" data-holder-rendered="true">
+                    <br/><br/>
+                    <strong>ID</strong>: <span class="thing-id">3</span> <br/>
+                    <strong>价格</strong>: <span class="thing-price">3</span> ETH <br/>
+                    <strong>等级</strong>: <span class="thing-level">3</span> 级<br/>
+                    <strong>代数</strong>: <span class="thing-generation">0</span> 代<br/>
+                    <strong>冷却</strong>: <span class="thing-ready-time">3</span> 分钟<br/>
+                    <strong>战斗</strong>: <br/>
+                    <div style="text-indent:0.5cm;">
+                        胜利次数: <span class="thing-fight-win">1</span>   失败次数: <span class="thing-fight-loss">1</span><br/>
+                    </div>
+                    <strong>属性</strong>: <br/>
+                    <div style="text-indent:0.5cm;">
+                        头部基因: <span class="thing-head">1</span>   眼部基因: <span class="thing-eye">1</span><br/>
+                    </div>
+                    <div style="text-indent:0.5cm;">
+                        皮肤基因: <span class="thing-skin">1</span>   上身基因: <span class="thing-up">1</span><br/>
+                    </div>
+                    <div style="text-indent:0.5cm;">
+                        下身基因: <span class="thing-down">1</span><br/>
+                    </div>
+
+                    <button class="btn btn-danger btn-bug" type="button" style="display: none;"
+                            thing-id="0" thing-price="0">购买</button>
+                    <button class="btn btn-danger btn-sell" type="button" style="display: none;"
+                            thing-id="0" thing-price="0">出售</button>
+                    <button class="btn btn-danger btn-breed" type="button" style="display: none;"
+                            thing-id="0" thing-price="0">选TA</button>
+                    <button class="btn btn-danger btn-fight" type="button" style="display: none;"
+                            thing-id="0" thing-price="0">打TA</button>
+                    <button class="btn btn-danger btn-feed" type="button" style="display: none;"
+                            thing-id="0" thing-price="0">喂TA</button>
+                    <input type="text" class="form-control; display: none; my-id" placeholder="我的宠物ID">
+                    <input type="text" class="form-control; display: none; kitty-id" placeholder="Kitty ID">
+                    <button class="btn btn-danger btn-upgrade" type="button" style="display: none;"
+                            thing-id="0" thing-price="0">升级</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/web3.min.js"></script>
+    <script src="js/truffle-contract.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+</html>

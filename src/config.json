@@ -1,0 +1,24 @@
+{
+  "debug":true,
+  "dapp_name": "CryptoKitties",
+  "rpc": "http://127.0.0.1:7545",
+  "network_id":"5777",
+  "img_url":"https://api.cryptokitties.co/kitties/",
+  "img_count":"600000",
+  "default_trade_center_things_num": 6,
+  "default_breed_center_things_num": 4,
+  "default_fight_center_things_num": 4,
+  "default_users_things_num": 1,
+  "default_accounts": {
+    "trade_center":"0x13379Ec77e75012DdE8b0B08B1ff446F4065f52A",
+    "breed_center":"0x5a9Ee3cC24262154C72CeefE719B1D2A25bC824d",
+    "fight_center":"0xCC81EEd7Fd2B87c242528e6cf463a79B6d026E88",
+    "feed_center":"0x74dc378B48E121d6C78594D736072da86e3Ad36c",
+    "upgrade_center":"0xe2431fEd750e673C615e5E65476D874fCb13EBB7",
+    "users":[
+      "0xed5cF228Eb4508Acc9F1fe6626087E8ACA31d10e",
+      "0x1C64f8Ea7BebdbfF58b4397d408c4928914AFD2A"
+    ]
+  },
+  "level_up_fee":"1"
+}
