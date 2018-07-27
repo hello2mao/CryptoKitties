@@ -3,7 +3,7 @@ CryptoKitties
 
 A simple implementation of CryptoKitties with more tricks.
 
-![image](/img/erc721-demo.png)
+![image](/img/1.png)
 
 Feature
 -------------
