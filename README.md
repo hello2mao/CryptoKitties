@@ -3,6 +3,8 @@ CryptoKitties
 
 A simple implementation of CryptoKitties with more tricks.
 
+游戏设计见博文：[Ethereum-ERC721智能合约和Dapp实践--以太猫CryptoKitties的简单实现](https://blog.csdn.net/hello2mao/article/details/81241112)
+
 ![image](/img/1.png)
 
 Feature
