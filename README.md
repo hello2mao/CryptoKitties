@@ -8,9 +8,11 @@ A simple implementation of CryptoKitties with more tricks.
 Quick Start
 -------------
 
-###1. Run Ganache
-###2. Edit src/config.json
-###3. sh run.sh
+### 1. Run Ganache
+
+### 2. Edit src/config.json
+
+### 3. sh run.sh
 
 
 License
