@@ -46,7 +46,7 @@ App = {
 
     // 初始化合约相关
     initContract: function () {
-        $.getJSON('./build/contracts/ThingCore.json', function (data) {
+        $.getJSON('ThingCore.json', function (data) {
             if (App.config.debug) {
                 // console.log('Contract abi: ' + JSON.stringify(data.abi));
                 console.log('Contract networks: ' + JSON.stringify(data.networks));

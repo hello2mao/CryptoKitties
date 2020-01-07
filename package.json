@@ -4,9 +4,9 @@
   "description": "A simple implementation of CryptoKitties with more tricks.",
   "main": "truffle.js",
   "scripts": {
-    "all": "./node_modules/.bin/truffle compile --compile-all && ./node_modules/.bin/truffle migrate --reset && cp -rf build src/ && cd src && node server.js",
+    "all": "./node_modules/.bin/truffle compile --compile-all && ./node_modules/.bin/truffle migrate --reset && ./node_modules/.bin/lite-server -c bs-config.json",
     "deploy": "./node_modules/.bin/truffle compile --compile-all && ./node_modules/.bin/truffle migrate --reset",
-    "dev": "cp -rf build src/ && cd src && node server.js"
+    "dev": "./node_modules/.bin/lite-server -c bs-config.json "
   },
   "author": "hello2mao@gmail.com",
   "license": "ISC",
