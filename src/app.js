@@ -446,37 +446,7 @@ App = {
 
     // 升级
     handleUpgradeThing: function () {
-        if (App.currentAccountBalance < 1) {
-            alert('当前账户余额不足，升级至少需要1ETH');
-        }
-
-        $(this).text('升级中').attr('disabled', true);
-        let thingId = $(this).attr('thing-id');
-        App.contracts.ThingCore.deployed().then(function (instance) {
-            if (App.config.debug) {
-                console.log(App.currentAccount + ' upgrade thing, thingId: ' + thingId);
-            }
-
-            return instance.levelUp(thingId, {
-                from: App.currentAccount,
-                value: web3.toWei(App.config.levelUpFee, 'ether')
-            });
-        }).then(function (result) {
-            if (App.config.debug) {
-                console.log('handleUpgradeThing result = ' + JSON.stringify(result));
-            }
-
-            App.contracts.ThingCore.deployed().then(function (instance) {
-                return instance.getThing(parseInt(thingId, 10));
-            }).then(function (thing) {
-                $('[thing-item-id=' + thingId + ']').find('.thing-level').text(thing[3]);
-                $('[thing-item-id=' + thingId + ']').find('.btn-upgrade').text('升级').attr('disabled', false);
-                alert('升级完成，请在“我的”中查看结果。');
-
-            });
-        }).catch(function (err) {
-            console.log(err.message);
-        });
+        alert('暂未实现');
     },
 
     // 出售

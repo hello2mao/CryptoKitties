@@ -177,35 +177,7 @@ contract ThingFeedAndBreed is ThingFactory {
 
 /// 升级系统
 contract ThingUpgrade is ThingFactory {
-
-    // 默认升级费用 1 ETH
-    uint levelUpFee = 1 ether;
-
-    modifier aboveLevel(uint _level, uint _thingId) {
-        require(things[_thingId].level >= _level);
-        _;
-    }
-
-    // 设置升级费用
-    function setLevelUpFee(uint _fee) external onlyOwner {
-        levelUpFee = _fee;
-    }
-
-    // 升级
-    function levelUp(uint _thingId) external payable {
-        require(msg.value == levelUpFee);
-        things[_thingId].level++;
-    }
-
-    // 2级可以改名
-    function changeName(uint _thingId, string _newName) external aboveLevel(2, _thingId) onlyOwnerOf(_thingId) {
-        things[_thingId].name = _newName;
-    }
-
-    // 20级可以定制Dna
-    function changeDna(uint _thingId, uint _newDna) external aboveLevel(20, _thingId) onlyOwnerOf(_thingId) {
-        things[_thingId].dna = _newDna;
-    }
+    // TODO
 }
 
 /// 对战系统
