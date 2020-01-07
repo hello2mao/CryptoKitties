@@ -16,8 +16,6 @@ App = {
             App.config.dappName = data.dapp_name;
             App.config.rpc = data.rpc;
             App.config.networkId = data.network_id;
-            App.config.imgUrl = data.img_url;
-            App.config.imgCount = data.img_count;
             App.config.defaultTradeCenterThingsNum = data.default_trade_center_things_num;
             App.config.defaultBreedCenterThingsNum = data.default_breed_center_things_num;
             App.config.defaultFightCenterThingsNum = data.default_fight_center_things_num;
@@ -179,6 +177,7 @@ App = {
                         parseInt(num, 10), {from: account, gas: 100000000});
                 }
             }
+
             console.log('initThingFactory for ' + account);
         }).catch(function (err) {
             console.log('initThingFactory error, account: ' + account + ', num: ' + num
@@ -575,114 +574,113 @@ App = {
             let generation = thing[5];
             let winCount = thing[6];
             let lossCount = thing[7];
-            let url = App.config.imgUrl + (thing[2] % App.config.imgCount);
+            console.log('dna: '+dna)
+            let url = '/images/' + ((dna % 10086) % 100).toString() + '.svg';
             if (App.config.debug) {
                 console.log('Image res: ' + url);
             }
 
-            $.get(url, function (data) {
-                console.log(JSON.stringify(thing));
-                let thingsRow = $('#thingsRow');
-                let thingTemplate = $('#thing-template');
-                thingTemplate.find('.thing-template-body').addClass('thing-item');
-                thingTemplate.find('.thing-template-body').attr('thing-item-id', thingId);
-                thingTemplate.find('.panel-title').text('名字：' + name);
-                thingTemplate.find('img').attr('src', data.image_url);
-                thingTemplate.find('.thing-id').text(thingId);
-                thingTemplate.find('.thing-price').text(price);
-                thingTemplate.find('.thing-level').text(level);
-                thingTemplate.find('.thing-generation').text(generation);
-                let timestamp = new Date().getTime() / 1000;
-                if (timestamp >= readyTime) {
-                    thingTemplate.find('.thing-ready-time').text(0);
-                }
-                else {
-                    thingTemplate.find('.thing-ready-time').text(parseInt((readyTime - timestamp) / 60, 10));
-                }
-                thingTemplate.find('.thing-fight-win').text(winCount);
-                thingTemplate.find('.thing-fight-loss').text(lossCount);
-                let attr = App.generateAttr(thing[2]);
-                thingTemplate.find('.thing-head').text(attr.headChoice);
-                thingTemplate.find('.thing-eye').text(attr.eyeChoice);
-                thingTemplate.find('.thing-skin').text(attr.skinChoice);
-                thingTemplate.find('.thing-up').text(attr.upChoice);
-                thingTemplate.find('.thing-down').text(attr.downChoice);
-                thingTemplate.find('.btn-bug').attr('thing-id', thingId);
-                thingTemplate.find('.btn-bug').attr('thing-price', price);
-                thingTemplate.find('.btn-sell').attr('thing-id', thingId);
-                thingTemplate.find('.btn-sell').attr('thing-price', price);
-                thingTemplate.find('.btn-upgrade').attr('thing-id', thingId);
-                thingTemplate.find('.btn-breed').attr('thing-id', thingId);
-                thingTemplate.find('.btn-fight').attr('thing-id', thingId);
-                thingTemplate.find('.btn-feed').attr('thing-id', thingId);
-                if (App.currentTab !== targetTab) {
-                    return;
-                }
+            console.log(JSON.stringify(thing));
+            let thingsRow = $('#thingsRow');
+            let thingTemplate = $('#thing-template');
+            thingTemplate.find('.thing-template-body').addClass('thing-item');
+            thingTemplate.find('.thing-template-body').attr('thing-item-id', thingId);
+            thingTemplate.find('.panel-title').text('名字：' + name);
+            thingTemplate.find('img').attr('src', url);
+            thingTemplate.find('.thing-id').text(thingId);
+            thingTemplate.find('.thing-price').text(price);
+            thingTemplate.find('.thing-level').text(level);
+            thingTemplate.find('.thing-generation').text(generation);
+            let timestamp = new Date().getTime() / 1000;
+            if (timestamp >= readyTime) {
+                thingTemplate.find('.thing-ready-time').text(0);
+            }
+            else {
+                thingTemplate.find('.thing-ready-time').text(parseInt((readyTime - timestamp) / 60, 10));
+            }
+            thingTemplate.find('.thing-fight-win').text(winCount);
+            thingTemplate.find('.thing-fight-loss').text(lossCount);
+            let attr = App.generateAttr(thing[2]);
+            thingTemplate.find('.thing-head').text(attr.headChoice);
+            thingTemplate.find('.thing-eye').text(attr.eyeChoice);
+            thingTemplate.find('.thing-skin').text(attr.skinChoice);
+            thingTemplate.find('.thing-up').text(attr.upChoice);
+            thingTemplate.find('.thing-down').text(attr.downChoice);
+            thingTemplate.find('.btn-bug').attr('thing-id', thingId);
+            thingTemplate.find('.btn-bug').attr('thing-price', price);
+            thingTemplate.find('.btn-sell').attr('thing-id', thingId);
+            thingTemplate.find('.btn-sell').attr('thing-price', price);
+            thingTemplate.find('.btn-upgrade').attr('thing-id', thingId);
+            thingTemplate.find('.btn-breed').attr('thing-id', thingId);
+            thingTemplate.find('.btn-fight').attr('thing-id', thingId);
+            thingTemplate.find('.btn-feed').attr('thing-id', thingId);
+            if (App.currentTab !== targetTab) {
+                return;
+            }
 
-                switch (App.currentTab) {
-                    case App.tabs[0]:
-                        thingTemplate.find('.btn-bug').show();
-                        thingTemplate.find('.btn-sell').hide();
-                        thingTemplate.find('.btn-upgrade').hide();
-                        thingTemplate.find('.btn-breed').hide();
-                        thingTemplate.find('.btn-fight').hide();
-                        thingTemplate.find('.my-id').hide();
-                        thingTemplate.find('.btn-feed').hide();
-                        thingTemplate.find('.kitty-id').hide();
-                        break;
-                    case App.tabs[1]:
-                        thingTemplate.find('.btn-bug').hide();
-                        thingTemplate.find('.btn-sell').hide();
-                        thingTemplate.find('.btn-upgrade').hide();
-                        thingTemplate.find('.btn-breed').show();
-                        thingTemplate.find('.btn-fight').hide();
-                        thingTemplate.find('.my-id').show();
-                        thingTemplate.find('.btn-feed').hide();
-                        thingTemplate.find('.kitty-id').hide();
-                        break;
-                    case App.tabs[2]:
-                        thingTemplate.find('.btn-bug').hide();
-                        thingTemplate.find('.btn-sell').hide();
-                        thingTemplate.find('.btn-upgrade').hide();
-                        thingTemplate.find('.btn-breed').hide();
-                        thingTemplate.find('.btn-fight').show();
-                        thingTemplate.find('.my-id').show();
-                        thingTemplate.find('.btn-feed').hide();
-                        thingTemplate.find('.kitty-id').hide();
-                        break;
-                    case App.tabs[3]:
-                        thingTemplate.find('.btn-bug').hide();
-                        thingTemplate.find('.btn-sell').hide();
-                        thingTemplate.find('.btn-upgrade').hide();
-                        thingTemplate.find('.btn-breed').hide();
-                        thingTemplate.find('.btn-fight').hide();
-                        thingTemplate.find('.my-id').hide();
-                        thingTemplate.find('.btn-feed').show();
-                        thingTemplate.find('.kitty-id').show();
-                        break;
-                    case App.tabs[4]:
-                        thingTemplate.find('.btn-bug').hide();
-                        thingTemplate.find('.btn-sell').hide();
-                        thingTemplate.find('.btn-upgrade').show();
-                        thingTemplate.find('.btn-breed').hide();
-                        thingTemplate.find('.btn-fight').hide();
-                        thingTemplate.find('.my-id').hide();
-                        thingTemplate.find('.btn-feed').hide();
-                        thingTemplate.find('.kitty-id').hide();
-                        break;
-                    case App.tabs[5]:
-                        thingTemplate.find('.btn-bug').hide();
-                        thingTemplate.find('.btn-sell').show();
-                        thingTemplate.find('.btn-upgrade').hide();
-                        thingTemplate.find('.btn-breed').hide();
-                        thingTemplate.find('.btn-fight').hide();
-                        thingTemplate.find('.my-id').hide();
-                        thingTemplate.find('.btn-feed').hide();
-                        thingTemplate.find('.kitty-id').hide();
-                        break;
-                }
-                thingsRow.append(thingTemplate.html());
-            });
+            switch (App.currentTab) {
+                case App.tabs[0]:
+                    thingTemplate.find('.btn-bug').show();
+                    thingTemplate.find('.btn-sell').hide();
+                    thingTemplate.find('.btn-upgrade').hide();
+                    thingTemplate.find('.btn-breed').hide();
+                    thingTemplate.find('.btn-fight').hide();
+                    thingTemplate.find('.my-id').hide();
+                    thingTemplate.find('.btn-feed').hide();
+                    thingTemplate.find('.kitty-id').hide();
+                    break;
+                case App.tabs[1]:
+                    thingTemplate.find('.btn-bug').hide();
+                    thingTemplate.find('.btn-sell').hide();
+                    thingTemplate.find('.btn-upgrade').hide();
+                    thingTemplate.find('.btn-breed').show();
+                    thingTemplate.find('.btn-fight').hide();
+                    thingTemplate.find('.my-id').show();
+                    thingTemplate.find('.btn-feed').hide();
+                    thingTemplate.find('.kitty-id').hide();
+                    break;
+                case App.tabs[2]:
+                    thingTemplate.find('.btn-bug').hide();
+                    thingTemplate.find('.btn-sell').hide();
+                    thingTemplate.find('.btn-upgrade').hide();
+                    thingTemplate.find('.btn-breed').hide();
+                    thingTemplate.find('.btn-fight').show();
+                    thingTemplate.find('.my-id').show();
+                    thingTemplate.find('.btn-feed').hide();
+                    thingTemplate.find('.kitty-id').hide();
+                    break;
+                case App.tabs[3]:
+                    thingTemplate.find('.btn-bug').hide();
+                    thingTemplate.find('.btn-sell').hide();
+                    thingTemplate.find('.btn-upgrade').hide();
+                    thingTemplate.find('.btn-breed').hide();
+                    thingTemplate.find('.btn-fight').hide();
+                    thingTemplate.find('.my-id').hide();
+                    thingTemplate.find('.btn-feed').show();
+                    thingTemplate.find('.kitty-id').show();
+                    break;
+                case App.tabs[4]:
+                    thingTemplate.find('.btn-bug').hide();
+                    thingTemplate.find('.btn-sell').hide();
+                    thingTemplate.find('.btn-upgrade').show();
+                    thingTemplate.find('.btn-breed').hide();
+                    thingTemplate.find('.btn-fight').hide();
+                    thingTemplate.find('.my-id').hide();
+                    thingTemplate.find('.btn-feed').hide();
+                    thingTemplate.find('.kitty-id').hide();
+                    break;
+                case App.tabs[5]:
+                    thingTemplate.find('.btn-bug').hide();
+                    thingTemplate.find('.btn-sell').show();
+                    thingTemplate.find('.btn-upgrade').hide();
+                    thingTemplate.find('.btn-breed').hide();
+                    thingTemplate.find('.btn-fight').hide();
+                    thingTemplate.find('.my-id').hide();
+                    thingTemplate.find('.btn-feed').hide();
+                    thingTemplate.find('.kitty-id').hide();
+                    break;
+            }
+            thingsRow.append(thingTemplate.html());
         }).catch(function (err) {
             console.log('loadThing error: ' + err.message);
         });

@@ -3,8 +3,6 @@
   "dapp_name": "CryptoKitties",
   "rpc": "http://example.com/jsonrpc/9987e857-46b7-49c9-8c3a-59c24a0944f0",
   "network_id":"1578364926",
-  "img_url":"https://api.cryptokitties.co/kitties/",
-  "img_count":"600000",
   "default_trade_center_things_num": 6,
   "default_breed_center_things_num": 4,
   "default_fight_center_things_num": 4,
