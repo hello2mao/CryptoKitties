@@ -76,9 +76,9 @@ contract ThingFactory is Ownable {
     using SafeMath for uint256;
 
     // 生产一个产品后的通知事件
-    event NewThing(address _from, uint thingId, string name, uint dna);
+    event NewThing(address indexed _from, uint thingId, string name, uint dna);
     // 日志事件
-    event LogStatus(address _from, string log);
+    event LogStatus(address indexed _from, string log);
 
     // 基因位数
     uint dnaDigits = 16;

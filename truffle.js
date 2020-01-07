@@ -1,9 +1,9 @@
 module.exports = {
     networks: {
         development: {
-            host: "localhost",
-            port: 7545,
-            from: "0x13379Ec77e75012DdE8b0B08B1ff446F4065f52A",
+            host: "example.com/jsonrpc/9987e857-46b7-49c9-8c3a-59c24a0944f0",
+            port: 80,
+            from: "0xad1da3cee12D353Ae08dCa4370C51138E4751d35",
             // gas: 4712388, // web3.eth.getBlock("pending").gasLimit
             network_id: "*"
         }

@@ -7,8 +7,7 @@ More Info：[Ethereum-ERC721智能合约和Dapp实践--以太猫CryptoKitties的
 
 ![image](/img/1.png)
 
-Feature
--------------
+# Feature
 
  * 交易系统：用户可使用帐号在商店里对产品进行买卖交易。
  * 繁育系统：用户可以使用已有的产品与繁殖中心的产品进行繁殖，产生新的产品。
@@ -16,15 +15,43 @@ Feature
  * 喂养系统：用户可以对已有的产品喂养以太坊公链上的以太猫，从而产生新的带以太猫基因的杂交品种。
  * 升级系统：用户可以对已有的产品花ETH进行升级，2级以后可以改名，20级后可以定制DNA，从而用户激励升级。
 
-Quick Start
--------------
+# Quick Start
 
-#### 1. Run Ganache
-Go https://truffleframework.com/ganache
+## Prerequisites
 
-#### 2. Edit src/config.json
-Change default_accounts from Ganache.
+You need a test Ethereum net.
+
+You can use [Ganache](https://truffleframework.com/ganache) to setup a local testnet.
+
+Or you can setup a local private net following this official guide: [Operating a private network](https://github.com/ethereum/go-ethereum#operating-a-private-network).
+
+
+And prepare:
+
+- jsonrpc host
+- jsonrpc port
+- [**IMPORTANT**] at least seven accounts with eth and account unlock
+
+## Edit truffle.js
+
+```javascript
+module.exports = {
+    networks: {
+        development: {
+            host: "localhost", // eth jsonrpc host
+            port: 7545, // eth jsonrpc port
+            from: "0x13379Ec77e75012DdE8b0B08B1ff446F4065f52A", // test account, contract owner
+            network_id: "*"
+        }
+    }
+};
 ```
+
+## Edit src/config.json
+
+Change default_accounts.
+
+```json
 {
   "debug":true,
   "dapp_name": "CryptoKitties",
@@ -51,14 +78,15 @@ Change default_accounts from Ganache.
 }
 ```
 
-#### 3. Start APP
+## Start APP
+
 ```shell
 npm install
-sh run.sh
+npm run
 ```
 
-License
--------------
+# License
+
 
     Copyright (C) 2018 hello2mao.
 

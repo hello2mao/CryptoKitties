@@ -10,7 +10,7 @@ App = {
 
     init: function () {
         // 初始化配置
-        $.getJSON('../config.json', function (data) {
+        $.getJSON('./config.json', function (data) {
             // read from config.json
             App.config.debug = data.debug;
             App.config.dappName = data.dapp_name;
@@ -48,11 +48,12 @@ App = {
 
     // 初始化合约相关
     initContract: function () {
-        $.getJSON('../build/contracts/ThingCore.json', function (data) {
+        $.getJSON('./build/contracts/ThingCore.json', function (data) {
             if (App.config.debug) {
-                console.log('Contract abi: ' + JSON.stringify(data.abi));
+                // console.log('Contract abi: ' + JSON.stringify(data.abi));
                 console.log('Contract networks: ' + JSON.stringify(data.networks));
             }
+
             // Get the necessary contract artifact file and instantiate it with truffle-contract
             App.contracts.ThingCore = TruffleContract(data);
             // Set network id
@@ -64,7 +65,8 @@ App = {
             App.api.LogStatus().watch(function (error, result) {
                 if (!error) {
                     console.log('LogStatus: ' + JSON.stringify(result.args.log));
-                } else {
+                }
+                else {
                     console.log('LogStatus error: ' + error.message);
                 }
             });
@@ -72,21 +74,22 @@ App = {
             App.api.NewThing().watch(function (error, result) {
                 if (!error) {
                     console.log('NewThing: ' + JSON.stringify(result));
-                    switch (result.args._from) {
-                        case App.config.defaultTradeCenterAccount:
+                    switch (result.args._from.toLowerCase()) {
+                        case App.config.defaultTradeCenterAccount.toLowerCase():
                             App.loadThing(result.args.thingId, App.tabs[0]);
                             break;
-                        case App.config.defaultBreedCenterAccount:
+                        case App.config.defaultBreedCenterAccount.toLowerCase():
                             App.loadThing(result.args.thingId, App.tabs[1]);
                             break;
-                        case App.config.defaultFightCenterAccount:
+                        case App.config.defaultFightCenterAccount.toLowerCase():
                             App.loadThing(result.args.thingId, App.tabs[2]);
                             break;
                         default:
                             App.loadThing(result.args.thingId, App.tabs[5]);
                             break;
                     }
-                } else {
+                }
+                else {
                     console.log('NewThing error: ' + error.message);
                 }
             });
@@ -95,35 +98,38 @@ App = {
                 if (!error) {
                     console.log('Transfer: ' + JSON.stringify(result));
                     App.updateBalance();
-                    switch (result.args._from) {
-                        case App.config.defaultTradeCenterAccount:
+                    switch (result.args._from.toLowerCase()) {
+                        case App.config.defaultTradeCenterAccount.toLowerCase():
                             App.removeThing(result.args._tokenId, App.tabs[0]);
                             break;
-                        case App.config.defaultBreedCenterAccount:
+                        case App.config.defaultBreedCenterAccount.toLowerCase():
                             App.removeThing(result.args._tokenId, App.tabs[1]);
                             break;
-                        case App.config.defaultFightCenterAccount:
+                        case App.config.defaultFightCenterAccount.toLowerCase():
                             App.removeThing(result.args._tokenId, App.tabs[2]);
                             break;
                         default:
+                            console.log('Transfer _from default');
                             App.removeThing(result.args._tokenId, App.tabs[5]);
                             break;
                     }
-                    switch (result.args._to) {
-                        case App.config.defaultTradeCenterAccount:
+                    switch (result.args._to.toLowerCase()) {
+                        case App.config.defaultTradeCenterAccount.toLowerCase():
                             App.loadThing(result.args.thingId, App.tabs[0]);
                             break;
-                        case App.config.defaultBreedCenterAccount:
+                        case App.config.defaultBreedCenterAccount.toLowerCase():
                             App.loadThing(result.args.thingId, App.tabs[1]);
                             break;
-                        case App.config.defaultFightCenterAccount:
+                        case App.config.defaultFightCenterAccount.toLowerCase():
                             App.loadThing(result.args.thingId, App.tabs[2]);
                             break;
                         default:
+                            console.log('Transfer _to default');
                             App.loadThing(result.args.thingId, App.tabs[5]);
                             break;
                     }
-                } else {
+                }
+                else {
                     console.log('Transfer error: ' + error.message);
                 }
             });
@@ -150,7 +156,8 @@ App = {
                 li = li + ` <li class="menu-template" role="presentation">
                     <a class="menu-item" role="menuitem">${App.config.defaultUsersAccount[i]}</a>
                 </li>`;
-            } else {
+            }
+            else {
                 li = ` <li class="menu-template" role="presentation">
                     <a class="menu-item" role="menuitem">${App.config.defaultUsersAccount[i]}</a>
                 </li>`;
@@ -169,20 +176,20 @@ App = {
             if (result.length < num) {
                 for (let i = 0; i < (num - result.length); i++) {
                     App.api.createRandomThing(Math.random().toString(36).substr(2),
-                        parseInt(num), {from: account, gas: 100000000});
+                        parseInt(num, 10), {from: account, gas: 100000000});
                 }
             }
             console.log('initThingFactory for ' + account);
         }).catch(function (err) {
-            console.log('initThingFactory error, account: ' + account + ", num: " + num
-                + ", error: " + err.message);
+            console.log('initThingFactory error, account: ' + account + ', num: ' + num
+                + ', error: ' + err.message);
         });
     },
 
     // 交易大厅
     handleTradeCenter: function () {
         App.currentTab = App.tabs[0];
-        $('#play-hint').text("玩法：（1）点击购买宠物（2）数据入链后交易才完成（3）在“我的“中查看已购宠物").show();
+        $('#play-hint').text('玩法：（1）点击购买宠物（2）数据入链后交易才完成（3）在“我的“中查看已购宠物').show();
         $('#thingsRow').empty();
         App.contracts.ThingCore.deployed().then(function (instance) {
             return instance.getThingsByOwner(App.config.defaultTradeCenterAccount);
@@ -198,7 +205,7 @@ App = {
     // 繁育中心
     handleBreedCenter: function () {
         App.currentTab = App.tabs[1];
-        $('#play-hint').text("玩法：（1）在希望交配的宠物下输入我的宠物ID（2）点击选TA（3）数据入链后，交配产生的新宠物在“我的“中查看").show();
+        $('#play-hint').text('玩法：（1）在希望交配的宠物下输入我的宠物ID（2）点击选TA（3）数据入链后，交配产生的新宠物在“我的“中查看').show();
         $('#thingsRow').empty();
         App.contracts.ThingCore.deployed().then(function (instance) {
             return instance.getThingsByOwner(App.config.defaultBreedCenterAccount);
@@ -214,7 +221,7 @@ App = {
     // 战斗中心
     handleFightCenter: function () {
         App.currentTab = App.tabs[2];
-        $('#play-hint').text("玩法：（1）在希望与之战斗的宠物下输入我的宠物ID（2）点击打TA触发战斗（3）数据入链后，战斗结果在“我的“中查看").show();
+        $('#play-hint').text('玩法：（1）在希望与之战斗的宠物下输入我的宠物ID（2）点击打TA触发战斗（3）数据入链后，战斗结果在“我的“中查看').show();
         $('#thingsRow').empty();
         App.contracts.ThingCore.deployed().then(function (instance) {
             return instance.getThingsByOwner(App.config.defaultFightCenterAccount);
@@ -230,7 +237,7 @@ App = {
     // 喂养中心
     handleFeedCenter: function () {
         App.currentTab = App.tabs[3];
-        $('#play-hint').text("玩法：（1）给你的宠物喂食以太猫（2）在希望被喂食的宠物下输入以太猫ID，介于1~60000之间，点击“”喂食”（3）数据入链后，在“我的“中查看产生的新的变异宠物").show();
+        $('#play-hint').text('玩法：（1）给你的宠物喂食以太猫（2）在希望被喂食的宠物下输入以太猫ID，介于1~60000之间，点击“”喂食”（3）数据入链后，在“我的“中查看产生的新的变异宠物').show();
         $('#thingsRow').empty();
         App.contracts.ThingCore.deployed().then(function (instance) {
             return instance.getThingsByOwner(App.currentAccount);
@@ -246,7 +253,7 @@ App = {
     // 升级中心
     handleUpgradeCenter: function () {
         App.currentTab = App.tabs[4];
-        $('#play-hint').text("玩法：升级宠物需花费 1ETH").show();
+        $('#play-hint').text('玩法：升级宠物需花费 1ETH').show();
         $('#thingsRow').empty();
         App.contracts.ThingCore.deployed().then(function (instance) {
             return instance.getThingsByOwner(App.currentAccount);
@@ -276,32 +283,40 @@ App = {
     },
 
     handleChangeAccount: function () {
-        console.log("handleChangeAccount");
+        console.log('handleChangeAccount');
         App.currentAccount = $(this).html();
-        console.log("handleChangeAccount text: " + $(this).html());
+        console.log('handleChangeAccount text: ' + $(this).html());
         $('#current-account').text(App.currentAccount);
         App.updateBalance();
     },
 
     // 购买
     handleBuyThing: function () {
-        if (parseInt($(this).attr('thing-price')) > App.currentAccountBalance) {
-            alert("当前账户余额不足");
+        if (parseInt($(this).attr('thing-price'), 10) > App.currentAccountBalance) {
+            alert('当前账户余额不足');
         }
+
         let thingId = $(this).attr('thing-id');
         let thingPrice = $(this).attr('thing-price');
-        $("[thing-item-id="+thingId+"]").find('.btn-bug').text('购买中').attr('disabled', true);
+        $('[thing-item-id=' + thingId + ']').find('.btn-bug').text('购买中').attr('disabled', true);
         App.contracts.ThingCore.deployed().then(function (instance) {
             if (App.config.debug) {
-                console.log(App.currentAccount + ' buy thing, thingId: ' + thingId + ", thingPrice: " + thingPrice);
+                console.log(App.currentAccount + ' buy thing, thingId: ' + thingId + ', thingPrice: ' + thingPrice);
             }
-            web3.eth.sendTransaction({from: App.currentAccount, to: App.config.defaultTradeCenterAccount,
-                value:web3.toWei(thingPrice,'ether')});
-            return instance.buyThing(thingId, {from: App.currentAccount});
+
+            web3.eth.sendTransaction({
+                from: App.currentAccount,
+                to: App.config.defaultTradeCenterAccount,
+                value: web3.toWei(thingPrice, 'ether')
+            });
+            return instance.buyThing(thingId, {
+                from: App.currentAccount
+            });
         }).then(function (result) {
             if (App.config.debug) {
                 console.log('handleBuyThing result = ' + JSON.stringify(result));
             }
+
         }).catch(function (err) {
             console.log(err.message);
         });
@@ -310,34 +325,38 @@ App = {
     // 繁育
     handleBreed: function () {
         let targetThingId = $(this).attr('thing-id');
-        let myId = $("[thing-item-id="+targetThingId+"]").find('.my-id').val();
-        if (myId === "") {
-            alert("请输入你的宠物ID");
+        let myId = $('[thing-item-id=' + targetThingId + ']').find('.my-id').val();
+        if (myId === '') {
+            alert('请输入你的宠物ID');
             return;
         }
+
         App.contracts.ThingCore.deployed().then(function (instance) {
-            return instance.getThing(parseInt(myId));
+            return instance.getThing(parseInt(myId, 10));
         }).then(function (thing) {
             let readyTime = thing[4];
             let timestamp = new Date().getTime() / 1000;
             if (timestamp >= readyTime) {
-                $("[thing-item-id="+targetThingId+"]").find('.btn-breed').text('交配中').attr('disabled', true);
+                $('[thing-item-id=' + targetThingId + ']').find('.btn-breed').text('交配中').attr('disabled', true);
                 App.contracts.ThingCore.deployed().then(function (instance) {
                     if (App.config.debug) {
-                        console.log(App.currentAccount + ' bread thing, targetThingId: ' + targetThingId + ", myId: " + myId);
+                        console.log(App.currentAccount + ' bread thing, targetThingId: ' + targetThingId + ', myId: ' + myId);
                     }
-                    return instance.breed(parseInt(myId), parseInt(targetThingId), {from: App.currentAccount,gas: 1000000000});
+
+                    return instance.breed(parseInt(myId, 10), parseInt(targetThingId, 10), {from: App.currentAccount, gas: 1000000000});
                 }).then(function (result) {
                     if (App.config.debug) {
                         console.log('handleBreed result = ' + JSON.stringify(result));
                     }
-                    $("[thing-item-id="+targetThingId+"]").find('.btn-breed').text('选TA').attr('disabled', false);
-                    alert("繁育完成，请在“我的”中查看结果。")
+
+                    $('[thing-item-id=' + targetThingId + ']').find('.btn-breed').text('选TA').attr('disabled', false);
+                    alert('繁育完成，请在“我的”中查看结果。');
                 }).catch(function (err) {
                     console.log(err.message);
                 });
-            } else {
-                alert("宠物还在冷却中，请换个")
+            }
+            else {
+                alert('宠物还在冷却中，请换个');
             }
         }).catch(function (err) {
             console.log(err.message);
@@ -347,34 +366,38 @@ App = {
     // 战斗
     handleFight: function () {
         let targetThingId = $(this).attr('thing-id');
-        let myId = $("[thing-item-id="+targetThingId+"]").find('.my-id').val();
-        if (myId === "") {
-            alert("请输入你的宠物ID");
+        let myId = $('[thing-item-id=' + targetThingId + ']').find('.my-id').val();
+        if (myId === '') {
+            alert('请输入你的宠物ID');
             return;
         }
+
         App.contracts.ThingCore.deployed().then(function (instance) {
-            return instance.getThing(parseInt(myId));
+            return instance.getThing(parseInt(myId, 10));
         }).then(function (thing) {
             let readyTime = thing[4];
             let timestamp = new Date().getTime() / 1000;
             if (timestamp >= readyTime) {
-                $("[thing-item-id="+targetThingId+"]").find('.btn-fight').text('战斗中').attr('disabled', true);
+                $('[thing-item-id=' + targetThingId + ']').find('.btn-fight').text('战斗中').attr('disabled', true);
                 App.contracts.ThingCore.deployed().then(function (instance) {
                     if (App.config.debug) {
-                        console.log(App.currentAccount + ' fight thing, targetThingId: ' + targetThingId + ", myId: " + myId);
+                        console.log(App.currentAccount + ' fight thing, targetThingId: ' + targetThingId + ', myId: ' + myId);
                     }
-                    return instance.attack(parseInt(myId), parseInt(targetThingId), {from: App.currentAccount,gas: 1000000000});
+
+                    return instance.attack(parseInt(myId, 10), parseInt(targetThingId, 10), {from: App.currentAccount, gas: 1000000000});
                 }).then(function (result) {
                     if (App.config.debug) {
                         console.log('handleBreed result = ' + JSON.stringify(result));
                     }
-                    $("[thing-item-id="+targetThingId+"]").find('.btn-fight').text('打TA').attr('disabled', false);
-                    alert("战斗完成，请在“我的”中查看战斗结果。")
+
+                    $('[thing-item-id=' + targetThingId + ']').find('.btn-fight').text('打TA').attr('disabled', false);
+                    alert('战斗完成，请在“我的”中查看战斗结果。');
                 }).catch(function (err) {
                     console.log(err.message);
                 });
-            } else {
-                alert("宠物还在冷却中，请换个")
+            }
+            else {
+                alert('宠物还在冷却中，请换个');
             }
         }).catch(function (err) {
             console.log(err.message);
@@ -384,34 +407,38 @@ App = {
     // 喂养
     handleFeed: function () {
         let targetThingId = $(this).attr('thing-id');
-        let kittyId = $("[thing-item-id="+targetThingId+"]").find('.kitty-id').val();
-        if (kittyId === "") {
-            alert("请输入食物（Kitty）的ID");
+        let kittyId = $('[thing-item-id=' + targetThingId + ']').find('.kitty-id').val();
+        if (kittyId === '') {
+            alert('请输入食物（Kitty）的ID');
             return;
         }
+
         App.contracts.ThingCore.deployed().then(function (instance) {
-            return instance.getThing(parseInt(targetThingId));
+            return instance.getThing(parseInt(targetThingId, 10));
         }).then(function (thing) {
             let readyTime = thing[4];
             let timestamp = new Date().getTime() / 1000;
             if (timestamp >= readyTime) {
-                $("[thing-item-id="+targetThingId+"]").find('.btn-feed').text('喂食中').attr('disabled', true);
+                $('[thing-item-id=' + targetThingId + ']').find('.btn-feed').text('喂食中').attr('disabled', true);
                 App.contracts.ThingCore.deployed().then(function (instance) {
                     if (App.config.debug) {
-                        console.log(App.currentAccount + ' feed thing, targetThingId: ' + targetThingId + ", kittyId: " + kittyId);
+                        console.log(App.currentAccount + ' feed thing, targetThingId: ' + targetThingId + ', kittyId: ' + kittyId);
                     }
-                    return instance.feedOnKitty(parseInt(targetThingId), parseInt(kittyId), {from: App.currentAccount,gas: 1000000000});
+
+                    return instance.feedOnKitty(parseInt(targetThingId, 10), parseInt(kittyId, 10), {from: App.currentAccount, gas: 1000000000});
                 }).then(function (result) {
                     if (App.config.debug) {
                         console.log('handleBreed result = ' + JSON.stringify(result));
                     }
-                    $("[thing-item-id="+targetThingId+"]").find('.btn-feed').text('喂TA').attr('disabled', false);
-                    alert("喂食完成，请在“我的”中查看获得的变异宠物。")
+
+                    $('[thing-item-id=' + targetThingId + ']').find('.btn-feed').text('喂TA').attr('disabled', false);
+                    alert('喂食完成，请在“我的”中查看获得的变异宠物。');
                 }).catch(function (err) {
                     console.log(err.message);
                 });
-            } else {
-                alert("宠物还在冷却中，请换个")
+            }
+            else {
+                alert('宠物还在冷却中，请换个');
             }
         }).catch(function (err) {
             console.log(err.message);
@@ -421,26 +448,31 @@ App = {
     // 升级
     handleUpgradeThing: function () {
         if (App.currentAccountBalance < 1) {
-            alert("当前账户余额不足，升级至少需要1ETH");
+            alert('当前账户余额不足，升级至少需要1ETH');
         }
+
         $(this).text('升级中').attr('disabled', true);
         let thingId = $(this).attr('thing-id');
         App.contracts.ThingCore.deployed().then(function (instance) {
             if (App.config.debug) {
                 console.log(App.currentAccount + ' upgrade thing, thingId: ' + thingId);
             }
-            return instance.levelUp(thingId, {from: App.currentAccount,
-                value: web3.toWei(App.config.levelUpFee, 'ether')});
+
+            return instance.levelUp(thingId, {
+                from: App.currentAccount,
+                value: web3.toWei(App.config.levelUpFee, 'ether')
+            });
         }).then(function (result) {
             if (App.config.debug) {
                 console.log('handleUpgradeThing result = ' + JSON.stringify(result));
             }
+
             App.contracts.ThingCore.deployed().then(function (instance) {
-                    return instance.getThing(parseInt(thingId));
-                }).then(function (thing) {
-                $("[thing-item-id="+thingId+"]").find('.thing-level').text(thing[3]);
-                $("[thing-item-id="+thingId+"]").find('.btn-upgrade').text('升级').attr('disabled', false);
-                alert("升级完成，请在“我的”中查看结果。")
+                return instance.getThing(parseInt(thingId, 10));
+            }).then(function (thing) {
+                $('[thing-item-id=' + thingId + ']').find('.thing-level').text(thing[3]);
+                $('[thing-item-id=' + thingId + ']').find('.btn-upgrade').text('升级').attr('disabled', false);
+                alert('升级完成，请在“我的”中查看结果。');
 
             });
         }).catch(function (err) {
@@ -455,15 +487,22 @@ App = {
         let thingPrice = $(this).attr('thing-price');
         App.contracts.ThingCore.deployed().then(function (instance) {
             if (App.config.debug) {
-                console.log(App.currentAccount + ' sell thing, thingId: ' + thingId + ", thingPrice: " + thingPrice);
+                console.log(App.currentAccount + ' sell thing, thingId: ' + thingId + ', thingPrice: ' + thingPrice);
             }
-            web3.eth.sendTransaction({from: App.config.defaultTradeCenterAccount, to: App.currentAccount,
-                value:web3.toWei(thingPrice,'ether')});
-            return instance.buyThing(thingId, {from: App.config.defaultTradeCenterAccount});
+
+            web3.eth.sendTransaction({
+                from: App.config.defaultTradeCenterAccount,
+                to: App.currentAccount,
+                value: web3.toWei(thingPrice, 'ether')
+            });
+            return instance.buyThing(thingId, {
+                from: App.config.defaultTradeCenterAccount
+            });
         }).then(function (result) {
             if (App.config.debug) {
                 console.log('handleBuyThing result = ' + JSON.stringify(result));
             }
+
         }).catch(function (err) {
             console.log(err.message);
         });
@@ -487,9 +526,9 @@ App = {
     },
 
     updateBalance: function () {
-        let balance = web3.fromWei(web3.eth.getBalance(App.currentAccount), "ether");
+        let balance = web3.fromWei(web3.eth.getBalance(App.currentAccount), 'ether');
         App.currentAccountBalance = balance;
-        $('#account-balance').text(balance + " ETH");
+        $('#account-balance').text(balance + ' ETH');
     },
 
     generateAttr: function (dna) {
@@ -497,7 +536,7 @@ App = {
         let dnaStr = String(dna);
         // 如果dna少于16位,在它前面用0补上
         while (dnaStr.length < 16) {
-            dnaStr = "0" + dnaStr;
+            dnaStr = '0' + dnaStr;
         }
         return {
             // 前两位数构成头部.我们可能有7种头部, 所以 % 7
@@ -512,14 +551,14 @@ App = {
             skinChoice: dnaStr.substring(4, 6) % 6 + 1,
 
             upChoice: dnaStr.substring(6, 8),
-            downChoice: dnaStr.substring(8, 10),
-        }
+            downChoice: dnaStr.substring(8, 10)
+        };
 
     },
 
-    loadThing: function(thingId, targetTab) {
+    loadThing: function (thingId, targetTab) {
         App.contracts.ThingCore.deployed().then(function (instance) {
-            return instance.getThing(parseInt(thingId));
+            return instance.getThing(parseInt(thingId, 10));
         }).then(function (thing) {
             if ($('#page-hint').is(':visible')) {
                 $('#pageTitle').text(App.config.dappName);
@@ -527,6 +566,7 @@ App = {
                 $('#page-tabs').show();
                 $('#page-head').show();
             }
+
             let name = thing[0];
             let price = thing[1];
             let dna = thing[2];
@@ -537,25 +577,27 @@ App = {
             let lossCount = thing[7];
             let url = App.config.imgUrl + (thing[2] % App.config.imgCount);
             if (App.config.debug) {
-                console.log("Image res: " + url);
+                console.log('Image res: ' + url);
             }
-            $.get(url, function(data) {
+
+            $.get(url, function (data) {
                 console.log(JSON.stringify(thing));
                 let thingsRow = $('#thingsRow');
                 let thingTemplate = $('#thing-template');
                 thingTemplate.find('.thing-template-body').addClass('thing-item');
                 thingTemplate.find('.thing-template-body').attr('thing-item-id', thingId);
-                thingTemplate.find('.panel-title').text("名字：" + name);
+                thingTemplate.find('.panel-title').text('名字：' + name);
                 thingTemplate.find('img').attr('src', data.image_url);
                 thingTemplate.find('.thing-id').text(thingId);
                 thingTemplate.find('.thing-price').text(price);
                 thingTemplate.find('.thing-level').text(level);
                 thingTemplate.find('.thing-generation').text(generation);
-                let timestamp=new Date().getTime() / 1000;
+                let timestamp = new Date().getTime() / 1000;
                 if (timestamp >= readyTime) {
                     thingTemplate.find('.thing-ready-time').text(0);
-                } else {
-                    thingTemplate.find('.thing-ready-time').text(parseInt((readyTime - timestamp) / 60));
+                }
+                else {
+                    thingTemplate.find('.thing-ready-time').text(parseInt((readyTime - timestamp) / 60, 10));
                 }
                 thingTemplate.find('.thing-fight-win').text(winCount);
                 thingTemplate.find('.thing-fight-loss').text(lossCount);
@@ -576,6 +618,7 @@ App = {
                 if (App.currentTab !== targetTab) {
                     return;
                 }
+
                 switch (App.currentTab) {
                     case App.tabs[0]:
                         thingTemplate.find('.btn-bug').show();
@@ -644,12 +687,15 @@ App = {
             console.log('loadThing error: ' + err.message);
         });
     },
-    
+
     removeThing: function (thingId, targetTab) {
+        console.log('start to remove ' + thingId + ' in tab ' + targetTab);
         if (App.currentTab !== targetTab) {
+            console.log('not current tab, return');
             return;
         }
-        $("[thing-item-id="+thingId+"]").remove();
+
+        $('[thing-item-id=' + thingId + ']').remove();
     }
 
 };
