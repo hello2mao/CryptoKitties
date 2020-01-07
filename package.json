@@ -8,7 +8,7 @@
     "deploy": "./node_modules/.bin/truffle compile --compile-all && ./node_modules/.bin/truffle migrate --reset",
     "dev": "cp -rf build src/ && cd src && node server.js"
   },
-  "author": "",
+  "author": "hello2mao@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "express": "^4.16.3",
