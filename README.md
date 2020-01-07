@@ -82,7 +82,7 @@ Change default_accounts.
 
 ```shell
 npm install
-npm run
+npm run all
 ```
 
 # License
