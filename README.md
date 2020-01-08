@@ -17,73 +17,15 @@ More Info：[Ethereum-ERC721智能合约和Dapp实践--以太猫CryptoKitties的
 
 # Quick Start
 
-## Prerequisites
-
-You need a test Ethereum net.
-
-You can use [Ganache](https://truffleframework.com/ganache) to setup a local testnet.
-
-Or you can setup a local private net following this official guide: [Operating a private network](https://github.com/ethereum/go-ethereum#operating-a-private-network).
-
-
-And prepare:
-
-- jsonrpc host
-- jsonrpc port
-- [**IMPORTANT**] at least seven accounts with eth and account unlock
-
-## Edit truffle.js
-
-```javascript
-module.exports = {
-    networks: {
-        development: {
-            host: "localhost", // eth jsonrpc host
-            port: 7545, // eth jsonrpc port
-            from: "0x13379Ec77e75012DdE8b0B08B1ff446F4065f52A", // test account, contract owner
-            network_id: "*"
-        }
-    }
-};
-```
-
-## Edit src/config.json
-
-Change default_accounts.
-
-```json
-{
-  "debug":true,
-  "dapp_name": "CryptoKitties",
-  "rpc": "http://127.0.0.1:7545",
-  "network_id":"5777",
-  "img_url":"https://api.cryptokitties.co/kitties/",
-  "img_count":"600000",
-  "default_trade_center_things_num": 6,
-  "default_breed_center_things_num": 4,
-  "default_fight_center_things_num": 4,
-  "default_users_things_num": 1,
-  "default_accounts": {
-    "trade_center":"0x13379Ec77e75012DdE8b0B08B1ff446F4065f52A",
-    "breed_center":"0x5a9Ee3cC24262154C72CeefE719B1D2A25bC824d",
-    "fight_center":"0xCC81EEd7Fd2B87c242528e6cf463a79B6d026E88",
-    "feed_center":"0x74dc378B48E121d6C78594D736072da86e3Ad36c",
-    "upgrade_center":"0xe2431fEd750e673C615e5E65476D874fCb13EBB7",
-    "users":[
-      "0xed5cF228Eb4508Acc9F1fe6626087E8ACA31d10e",
-      "0x1C64f8Ea7BebdbfF58b4397d408c4928914AFD2A"
-    ]
-  },
-  "level_up_fee":"1"
-}
-```
-
-## Start APP
-
 ```shell
-npm install
-npm run all
+# run dapp
+docker run --name=dapp -p 3000:3000 -p 8545:8545 -d hello2mao/crypto-kitties:v1.0.0
+# show logs
+docker logs -f dapp
 ```
+
+Wait some minutes.  
+Visit [http://localhost:3000](http://localhost:3000)
 
 # License
 

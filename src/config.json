@@ -1,21 +1,21 @@
 {
   "debug":true,
   "dapp_name": "CryptoKitties",
-  "rpc": "http://example.com/jsonrpc/9987e857-46b7-49c9-8c3a-59c24a0944f0",
-  "network_id":"1578364926",
+  "rpc": "http://127.0.0.1:8545",
+  "network_id":"15",
   "default_trade_center_things_num": 6,
   "default_breed_center_things_num": 4,
   "default_fight_center_things_num": 4,
   "default_users_things_num": 1,
   "default_accounts": {
-    "trade_center":"0xad1da3cee12D353Ae08dCa4370C51138E4751d35",
-    "breed_center":"0x96ad48F9B7A9cD17C30c81145Ba59cE80B8239DB",
-    "fight_center":"0x2168Fe952095921b0979C9F9B374b0c5dF01973E",
-    "feed_center":"0xE5f78b0544B87B0203a42D086a88287ed31232d5",
-    "upgrade_center":"0xB7F79c8c0344991Bf31727A4d81545DAe0da2546",
+    "trade_center":"0x673751313d2E477F789F0a1f0A4Fc4208ba908b3",
+    "breed_center":"0xcf7EC987043f1314F2BB7ba8963fcEA2e15a1b18",
+    "fight_center":"0x44fE4bce1867C7bA318aA6A7bEB1d0795db3cA62",
+    "feed_center":"0xe9B1ADcFfF8cAbA1371C10210FFB49A91058d7b9",
+    "upgrade_center":"0xa7383b6C584f10f3e7f870AcB3495C9B907264f1",
     "users":[
-      "0x7c621f49F38fA750F1b64F976d8FCe7B900CF432",
-      "0xBebb76c63DA6fBFe99C29dEBc75d424267ddFc28"
+      "0xEc0D61b303C2ECEd7d18B166D70f7C7DC69c379B",
+      "0xFCed13a4232257B371c910293A840EAC1863FF0A"
     ]
   },
   "level_up_fee":"1"

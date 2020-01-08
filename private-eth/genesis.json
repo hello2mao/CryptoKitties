@@ -1,0 +1,29 @@
+{
+  "config": {
+    "chainId": 15,
+    "homesteadBlock": 0,
+    "eip150Block": 0,
+    "eip155Block": 0,
+    "eip158Block": 0,
+    "byzantiumBlock": 0,
+    "constantinopleBlock": 0,
+    "petersburgBlock": 0,
+    "clique": {
+      "period": 5,
+      "epoch": 30000
+    }
+  },
+  "difficulty": "1",
+  "gasLimit": "0xffffffffffff",
+  "extradata": "0x00000000000000000000000000000000000000000000000000000000000000003A834e8c4ab7CfF61C11F71129205020bd8285330000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "alloc": {
+    "3A834e8c4ab7CfF61C11F71129205020bd828533": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "673751313d2E477F789F0a1f0A4Fc4208ba908b3": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "cf7EC987043f1314F2BB7ba8963fcEA2e15a1b18": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "44fE4bce1867C7bA318aA6A7bEB1d0795db3cA62": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "e9B1ADcFfF8cAbA1371C10210FFB49A91058d7b9": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "a7383b6C584f10f3e7f870AcB3495C9B907264f1": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "Ec0D61b303C2ECEd7d18B166D70f7C7DC69c379B": { "balance": "0xc097ce7bc90715b34b9f1" },
+    "FCed13a4232257B371c910293A840EAC1863FF0A": { "balance": "0xc097ce7bc90715b34b9f1" }
+  }
+}

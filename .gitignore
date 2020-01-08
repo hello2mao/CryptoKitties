@@ -16,6 +16,3 @@
 node_modules
 
 build
-
-build_img.sh
-run-docker.sh
